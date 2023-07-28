@@ -50,8 +50,8 @@
             <section class="row w-100 mt-5 mb-5 ml-0 propety_details_title">
                 <div class="col-12 col-sm-6 col-md-6 col-lg-6">
                     <h3>{{ property.title }}
-                        <i v-if="this.$store.getters.isLoggedIn" class="fa-heart card-heart" :class="getClassFavorites()"
-                            @click="changeHeart($event, property.id)"></i>
+                        <i v-if="this.$store.getters.isLoggedIn" class="fa-heart card-heart fav"
+                            :class="getClassFavorites()" @click="changeHeart($event, property.id)"></i>
                     </h3>
                     <h5>{{ property.address }}, {{ property.location }}</h5>
                 </div>
@@ -692,6 +692,11 @@ a {
     img {
         max-width: 100%;
     }
+}
+
+.fav {
+    color: #25aae1;
+    cursor: pointer;
 }
 
 // header

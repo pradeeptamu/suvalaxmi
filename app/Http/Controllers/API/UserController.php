@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -46,18 +47,16 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:191',
             'email' => 'required|string|email|max:191|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6',
             'address' => 'required|min:3',
             'phone' => 'required|string|min:10|max:10',
-            'image' => 'required| mimes:jpeg,png,jpg'
-        ]);
+            'photo' => 'required'
+        ]);        
 
         if($request->photo){
-
             $name = md5(microtime()) . '.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
             //laravel intervention to convert base 64 image and save to profile
-            \Image::make($request->photo)->save(public_path('/img/profile/') . $name);
-
+            Image::make($request->photo)->save(public_path('/img/profile/') . $name);
             //merge the new value that is name into $request array of photo field
             $request->merge(['photo' => $name]);
         }
@@ -121,7 +120,7 @@ class UserController extends Controller
             $name = time() . '.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
 
             //laravel intervention to convert base 64 image and save to profile
-            \Image::make($request->photo)->save(public_path('img/profile/') . $name);
+            Image::make($request->photo)->save(public_path('img/profile/') . $name);
 
             //merge the new value that is name into $request array of photo field
             $request->merge(['photo' => $name]);

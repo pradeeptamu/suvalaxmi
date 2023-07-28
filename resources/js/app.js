@@ -7,17 +7,10 @@ import store from "./store";
 import { initialize } from "./general.js";
 import VueProgressBar from "@aacassandra/vue3-progressbar";
 const options = {
-    color: "#bffaf3",
-    failedColor: "#874b4b",
+    color: "#38A1DA",
+    failedColor: "#ff3333",
     thickness: "5px",
-    transition: {
-        speed: "0.2s",
-        opacity: "0.6s",
-        termination: 300,
-    },
-    autoRevert: true,
-    location: "left",
-    inverse: false,
+    location: "top",
 };
 
 //sweetalert

@@ -22,7 +22,7 @@ class PropertyController extends Controller
             ->leftJoin('apartment_house', 'apartment_house.property_id', '=', 'properties.id')
             ->select('apartment_house.*', 'properties.*')
             ->latest('properties.created_at')
-            ->paginate(6);
+            ->paginate(12);
 
         $property->each(function ($value) {
             $value->time = \Carbon\Carbon::parse($value->created_at)->diffForHumans();
@@ -113,7 +113,7 @@ class PropertyController extends Controller
         ]);
         $house_apar = '';
         if ($request['category'] === 'apartment' || $request['category'] === 'house') {
-            $house_apar = Apartment_House::create([
+            $house_apar = ApartmentHouse::create([
                 'built_year' => $request['built_year'],
                 'property_id' => $latest->id,
                 'no_floors' => $request['floors'],
@@ -182,7 +182,7 @@ class PropertyController extends Controller
 //                'parking' => 'required|numeric|max:100|min:1',
 //            ]);
             if (empty($propAlt)) {
-                Apartment_House::create([
+                ApartmentHouse::create([
                     'built_year' => $request['built_year'],
                     'property_id' => $prop->id,
                     'no_floors' => $request['floors'],
@@ -290,7 +290,7 @@ class PropertyController extends Controller
 
     public function getHouse($id)
     {
-        $house = Apartment_House::where('property_id', $id)->first();
+        $house = ApartmentHouse::where('property_id', $id)->first();
         return response()->json([$house]);
     }
 
@@ -299,7 +299,6 @@ class PropertyController extends Controller
         $query = DB::table('properties')
             ->leftJoin('apartment_house', 'apartment_house.property_id', '=', 'properties.id')
             ->select('apartment_house.*', 'properties.*');
-            // return $filter;
 
         foreach (json_decode($filter) as $column => $value) {
             if ($column == 'price') {
@@ -324,7 +323,7 @@ class PropertyController extends Controller
             }
         }
 
-        $val = $query->paginate(6);
+        $val = $query->paginate(12);
 
         $val->each(function ($value) {
             $value->time = \Carbon\Carbon::parse($value->created_at)->diffForHumans();
@@ -346,7 +345,7 @@ class PropertyController extends Controller
                     ->orWhere('price', 'LIKE', "%$search%");
             })->paginate(20);
         } else {
-            $users = Property::latest()->paginate(5);
+            $users = Property::latest()->paginate(12);
         }
         return $users;
     }

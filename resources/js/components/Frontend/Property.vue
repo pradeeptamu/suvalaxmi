@@ -232,7 +232,8 @@
                             <div class="row pt-3">
                                 <div class="col-md-6 col-lg-4 p-2" v-for="(property, index) in properties.data"
                                     :key="property.id">
-                                    <router-link :to="{ name: 'singleproperty', params: { id: property.id } }">
+                                    <router-link :to="{ name: 'singleproperty', params: { id: property.id } }"
+                                        style="text-decoration: none;">
                                         <div class="props card">
                                             <div class="sale-rent">
                                                 <template v-if="property.purpose == 'sell'">
@@ -807,6 +808,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+//skeleton
+
 //paginate
 .pagination {
     list-style: none;

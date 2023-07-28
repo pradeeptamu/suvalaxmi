@@ -90,7 +90,7 @@ export default {
             return this.$store.getters.currentUser.name;
         },
         setEdit() {
-            this.$swal.$emit('resetProperty');
+            // this.$swal.$emit('resetProperty');
             this.$store.dispatch('setEditMode', false);
         }
     }

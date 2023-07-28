@@ -522,7 +522,7 @@ export default {
                 road_type: '',
                 price: '',
                 price_unit: '',
-                owner_id: this.$store.getters.currentUser.id,
+                owner_id: this.$store.getters.currentUser.id || '',
                 built_year: '',
                 furnish_status: '',
                 kitchen: '',
@@ -537,48 +537,45 @@ export default {
     },
     components: {},
     created() {
-
         axios.get('/api/location').then((data) => {
             this.locations = data.data;
         });
-
-
         //this code is for edit
         //if parameter passed as id then
         //we retrieved required data and fill based on category
         //image also loaded
-        if (typeof this.$route.params.id !== 'undefined') {
-            this.$store.dispatch('setEditMode', true);
-            axios.get('/api/property/' + this.$route.params.id)
-                .then((data) => {
-                    let id = data.data.id;
-                    let object1 = data.data;
-                    if (data.data.category !== 'land') {
-                        axios.get("/api/propertyHouse/" + id).then(({ data }) => {
-                            this.form.furnish_status = data[0].furnish_status;
-                            this.form.built_year = data[0].built_year;
-                            this.form.kitchen = data[0].kitchen;
-                            this.form.bedroom = data[0].bedroom;
-                            this.form.bathroom = data[0].bathroom;
-                            this.form.living_room = data[0].living_room;
-                            this.form.parking = data[0].parking,
-                                this.form.floors = data[0].no_floors;
-                            this.form.amenities = (data[0].amenities.split(","));
-                        });
-                    } else {
-                        this.house = false;
-                        this.land = true;
-                    }
-                    this.form.fill(object1);
-                    if (data.data.category == 'land') {
-                        this.form.amenities = [];
-                    }
+        // if (typeof this.$route.params.id !== 'undefined') {
+        //     this.$store.dispatch('setEditMode', true);
+        //     axios.get('/api/property/' + this.$route.params.id)
+        //         .then((data) => {
+        //             let id = data.data.id;
+        //             let object1 = data.data;
+        //             if (data.data.category !== 'land') {
+        //                 axios.get("/api/propertyHouse/" + id).then(({ data }) => {
+        //                     this.form.furnish_status = data[0].furnish_status;
+        //                     this.form.built_year = data[0].built_year;
+        //                     this.form.kitchen = data[0].kitchen;
+        //                     this.form.bedroom = data[0].bedroom;
+        //                     this.form.bathroom = data[0].bathroom;
+        //                     this.form.living_room = data[0].living_room;
+        //                     this.form.parking = data[0].parking,
+        //                         this.form.floors = data[0].no_floors;
+        //                     this.form.amenities = (data[0].amenities.split(","));
+        //                 });
+        //             } else {
+        //                 this.house = false;
+        //                 this.land = true;
+        //             }
+        //             this.form.fill(object1);
+        //             if (data.data.category == 'land') {
+        //                 this.form.amenities = [];
+        //             }
 
-                    this.getPreviewImage();
-                })
-                .catch(() => {
-                })
-        }
+        //             this.getPreviewImage();
+        //         })
+        //         .catch(() => {
+        //         })
+        // }
 
     },
     // updated() {
@@ -606,12 +603,10 @@ export default {
             }
         },
         createProperty() {
-            console.log(this.form)
 
-            // this.$Progress.start();
+            this.$Progress.start();
             this.form.post('/api/property')
                 .then(() => {
-                    // console.log(this.form)
                     this.form.reset();
                     this.removeFile();
                     this.$swal.fire({
@@ -629,7 +624,7 @@ export default {
                 })
         },//end of function
         editProperty(id) {
-            // this.$Progress.start();
+            this.$Progress.start();
             this.form.put('/api/property/' + id)
                 .then((id) => {
                     //success
@@ -638,13 +633,13 @@ export default {
                         'Information has been updated.',
                         'success'
                     );
-                    // this.$Progress.finish();
+                    this.$Progress.finish();
                     this.form.reset();
                     this.$router.push({ name: 'allproperties' });
                 })
                 .catch(() => {
                     //fail
-                    // this.$Progress.fail();//changes the color of vue progress bar
+                    this.$Progress.fail();//changes the color of vue progress bar
                 })
         },
         imageSave(files) {

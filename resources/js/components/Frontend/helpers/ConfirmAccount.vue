@@ -13,27 +13,27 @@
 </template>
 
 <script>
-    export default {
-        name: 'user-confirmation',
-        data() {
-            return {
-                message: '',
-                loading: true
-            }
-        },
-        mounted() {
-            axios.get('/api/register/activate/' + this.$route.params.token)
-                .then(() => {
-                    Toast.fire({
-                        type: 'success',
-                        title: 'Your Account has been activated!!!'
-                    });
-                    this.$router.push({ name: 'login', query: {account: 'activated'} });
-                })
-                .catch((error) => {
-                    this.loading =false;
-                    this.message = error.response.data.message;
-                })
+export default {
+    name: 'user-confirmation',
+    data() {
+        return {
+            message: '',
+            loading: true
         }
+    },
+    mounted() {
+        axios.get('/api/register/activate/' + this.$route.params.token)
+            .then(() => {
+                this.$swal.fire({
+                    icon: 'success',
+                    title: 'Your Account has been activated!!!'
+                });
+                this.$router.push({ name: 'login', query: { account: 'activated' } });
+            })
+            .catch((error) => {
+                this.loading = false;
+                this.message = error.response.data.message;
+            })
     }
+}
 </script>

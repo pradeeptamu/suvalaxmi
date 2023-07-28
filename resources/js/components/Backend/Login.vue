@@ -45,7 +45,7 @@ export default {
     },
     methods: {
         authenticate() {
-            // this.$Progress.start();
+            this.$Progress.start();
             this.$store.dispatch('login');
 
             login(this.$data.form)
@@ -53,7 +53,7 @@ export default {
                     if (res.message !== 'Invalid credentials') {
                         if (res.message !== 'Invalid authority') {
                             if (res.access_token) {
-                                // this.$Progress.finish();
+                                this.$Progress.finish();
                                 this.$store.commit("loginSuccess", res);
                                 this.$router.push({ name: 'admin-dashboard' });
 
@@ -66,13 +66,13 @@ export default {
                         }
                     } else {
                         this.error = 'Invalid email or password';
-                        // this.$Progress.fail();
+                        this.$Progress.fail();
                     }
 
                 })
                 .catch((error) => {
                     this.$store.commit("loginFailed", { error });
-                    // this.$Progress.fail();
+                    this.$Progress.fail();
                 })
         }
     }

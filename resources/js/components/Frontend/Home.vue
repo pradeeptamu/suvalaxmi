@@ -548,8 +548,8 @@ export default {
                 this.$router.push({ name: 'addproperty' });
             }
             else {
-                Toast.fire({
-                    type: 'warning',
+                this.$swal.fire({
+                    icon: 'warning',
                     title: 'You must login to add property'
                 });
             }

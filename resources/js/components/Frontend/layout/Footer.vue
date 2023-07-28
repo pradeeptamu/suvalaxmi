@@ -55,7 +55,7 @@
             <hr>
             <p class="Copyright text-center">2019 Copyright All Right Reserved By SuvaLaxmi RealEstate Pvt.Ltd. Website
                 Powered By
-                Yashri Soft Pvt.Ltd</p>
+                Pradeep Gurung</p>
         </div>
     </footer>
     <!-- END OF FOOTER -->

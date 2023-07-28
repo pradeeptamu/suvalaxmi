@@ -90,7 +90,7 @@ export default {
     methods: {
         logout() {
             this.$store.commit('logout');
-            this.$router.push('/home');
+            this.$router.push('/');
         },
     },
     computed: {

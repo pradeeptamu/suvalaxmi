@@ -1,6 +1,7 @@
 <template>
     <Header />
     <router-view />
+    <vue-progress-bar></vue-progress-bar>
     <Footer />
 </template>
 

@@ -39,9 +39,9 @@ class User extends Authenticatable
     ];
 
     public function property(){
-        return $this->hasMany('App\Property');
+        return $this->hasMany('App\Models\Property');
     }
     public function favoriteProperty(){
-        return $this->hasMany('App\Userfavorite');
+        return $this->hasMany('App\Models\Userfavorite');
     }
 }

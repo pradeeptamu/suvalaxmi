@@ -1,6 +1,6 @@
 <template>
-    <div class="modal-dialog text-center ">
-        <div class="col-sm-11 main-section">
+    <div class="modal-dialog text-center d-flex justify-content-center">
+        <div class="col-sm-8 main-section">
             <div class="modal-content">
 
                 <div class="col-12 user-img">
@@ -10,38 +10,39 @@
                 <form @submit.prevent="registerUser" class="col-12 mt-n3">
 
                     <div class="input-group form-group">
-                        <input type="text" v-model="form.name" class="form-control" placeholder="Full Name">
+                        <input type="text" v-model="form.name" class="form-control" placeholder="Full Name" required>
                     </div>
 
                     <div class="input-group form-group">
-                        <input type="email" v-model="form.email" class="form-control" placeholder="Email">
+                        <input type="email" v-model="form.email" class="form-control" placeholder="Email" required>
                     </div>
 
                     <div class="input-group form-group">
                         <input type="password" v-model="form.password" class="form-control" placeholder="Password"
-                            name="password">
+                            name="password" required>
                     </div>
 
                     <div class="input-group form-group">
                         <input type="password" v-model="form.password_confirmation" class="form-control"
-                            name="password_confirmation" placeholder="Confirm Password">
+                            name="password_confirmation" placeholder="Confirm Password" required>
                     </div>
 
                     <div class="input-group form-group">
-                        <input type="text" v-model="form.address" class="form-control" placeholder="Address">
+                        <input type="text" v-model="form.address" class="form-control" placeholder="Address" required>
                     </div>
 
                     <div class="input-group form-group">
-                        <input type="number" v-model="form.phone" class="form-control" placeholder="Phone">
+                        <input type="tel" v-model="form.phone" class="form-control" placeholder="Phone" required>
                     </div>
 
                     <div class="input-group form-group">
-                        <input type="file" @change="updatePhoto" name="photo" placeholder="Photo">
+                        <input type="file" @change="updatePhoto" name="photo" placeholder="Profile" required>
                     </div>
 
                     <div v-if="validationErrors">
                         <ul class="alert alert-danger">
-                            <li v-for="(value, key, index) in validationErrors">{{ value }}</li>
+                            <li v-for="(value, key, index) in validationErrors">{{ value }}
+                            </li>
                         </ul>
                     </div>
 
@@ -50,8 +51,8 @@
                     </div>
 
                 </form>
-                <social-login class="social-login mb-3 in-registration-box" :url="url">
-                </social-login>
+                <!-- <social-login class="social-login mb-3 in-registration-box" :url="url">
+                </social-login> -->
 
                 <p class="signup mt-3">Already have an account?
                     <router-link :to="{ name: 'login' }" class="login-link">Login</router-link>
@@ -93,16 +94,16 @@ export default {
             let limit = 1024 * 1024 * 2;
             if (!file.type.match('image.*')) {
                 this.form.photo = [];
-                swal.fire({
-                    type: 'error',
+                this.$swal.fire({
+                    icon: 'error',
                     title: 'Oops...',
                     text: 'Please upload image only',
                 })
                 return false;
             }
             if (file['size'] > limit) {
-                swal.fire({
-                    type: 'error',
+                this.$swal.fire({
+                    icon: 'error',
                     title: 'Oops...',
                     text: 'You are uploading a large file',
                 })
@@ -110,9 +111,9 @@ export default {
             }
             reader.onloadend = (file) => {
                 this.form.photo = reader.result;
-
             }
             reader.readAsDataURL(file);
+
         },
         registerUser() {
             this.$Progress.start();
@@ -120,8 +121,8 @@ export default {
                 .then(() => {
                     this.message = 'Your account has been registered. Please, activate your account before login.'
                     this.form.reset();
-                    Toast.fire({
-                        type: 'success',
+                    this.$swal.fire({
+                        icon: 'success',
                         title: 'Your Account has been created!!!'
                     });
                     this.$Progress.finish();
