@@ -38,7 +38,7 @@
         <div class="contact mx-5 my-5">
             <div class="row">
                 <div class="col-md-6 d-flex justify-content-center align-items-center">
-                    <img src="../assets/images/email.png">
+                    <img src="../../../../public/img/global/email.png">
                 </div>
                 <div class="col-md-6 text-center enquiry">
                     <h3>IF ANY ENQUIRY?</h3>

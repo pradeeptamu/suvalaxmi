@@ -770,9 +770,11 @@ export default {
         }
         ,
         loadProperties() {
+            this.loader = true;
             axios.get('/api/property')
                 .then(response => {
                     this.properties = response.data;
+                    this.loader = false;
                 });
         }
         ,

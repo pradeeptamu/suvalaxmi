@@ -44,11 +44,16 @@
                     <h6 class="heading-footer text-center" style="font-size:1rem;">Keep up to date with new updates</h6>
                     <form @submit.prevent="subscribe" class="text-center">
                         <input type="email" class="subscribe w-100" name="email" v-model="form.email"
-                            placeholder="Enter your email address...." :class="{ 'is-invalid': form.errors.has('email') }">
+                            placeholder="Enter your email address...." :class="{ 'is-invalid': form.errors.has('email') }"
+                            required>
                         <div class="error" v-if="form.errors.has('email')" v-html="form.errors.get('email')" />
 
                         <br>
-                        <button type="submit" class="mt-3 btn subscribe-btn">SUBSCRIBE</button>
+                        <button v-show="!loading" type="submit" class="mt-3 btn subscribe-btn">SUBSCRIBE</button>
+                        <button v-show="loading" class="mt-3 btn subscribe-btn" type="button" disabled>
+                            <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                            Loading...
+                        </button>
                     </form>
                 </div>
             </div>
@@ -68,6 +73,7 @@ export default {
     name: "Footer",
     data() {
         return {
+            loading: false,
             form: new Form({
                 email: ''
             }),
@@ -76,16 +82,19 @@ export default {
 
     methods: {
         subscribe() {
+            this.loading = true;
             this.form.post('/api/newsletter')
                 .then(() => {
+                    this.loading = false;
                     this.form.reset();
-                    Toast.fire({
-                        type: 'success',
+                    this.$swal.fire({
+                        icon: 'success',
                         title: 'Thank You For Your Subscription!!!'
                     });
                 })
 
                 .catch((e) => {
+                    this.loading = false;
                     console.log(e);
                 });
         },
@@ -93,7 +102,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .error {
     color: #dc3545;
 }
@@ -168,6 +177,16 @@ footer {
 
     .footer-hr {
         display: none;
+    }
+}
+
+.useful-links {
+    a {
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
     }
 }
 </style>

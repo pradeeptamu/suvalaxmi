@@ -4,6 +4,8 @@ namespace App\Http\Controllers\frontend;
 
 use App\Notifications\PasswordResetRequest;
 use App\Notifications\PasswordResetSuccess;
+use App\Mail\Subscription;
+use Illuminate\Support\Facades\Mail;
 use App\Models\PasswordReset;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -12,7 +14,11 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
-use Spatie\Newsletter\NewsletterFacade as Newsletter;
+// use Spatie\Newsletter\NewsletterFacade as Newsletter;
+// use Spatie\Newsletter\Facades\Newsletter as Newsletter;
+// use Newsletter;
+use Spatie\Newsletter\Facades\Newsletter;
+
 
 
 class AuthController extends Controller
@@ -91,6 +97,7 @@ class AuthController extends Controller
     {
         if (!Newsletter::isSubscribed($request->email)) {
             Newsletter::subscribe($request->email);
+            Mail::to($request->email)->send(new Subscription());
             return 'success';
         }
         return 'failure';

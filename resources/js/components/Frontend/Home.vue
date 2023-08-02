@@ -452,7 +452,6 @@ export default {
                 this.latestProperties.land = data.data[0];
                 this.latestProperties.house = data.data[1];
                 this.latestProperties.apartment = data.data[2];
-                console.log(data.data)
             })
             .catch(() => {
 

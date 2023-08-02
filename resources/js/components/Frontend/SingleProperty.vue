@@ -286,7 +286,12 @@
                             <input type="hidden" v-model="form.property_id" name="property_id">
 
                             <div class="form-group text-center">
-                                <button type="submit" class="btn btn-outline-primary m-auto">Submit</button>
+                                <button v-show="!loading" type="submit"
+                                    class="btn btn-outline-primary m-auto">Submit</button>
+                                <button v-show="loading" class="btn btn-outline-primary m-auto" type="button" disabled>
+                                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                    Loading...
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -396,7 +401,8 @@ export default {
                 largePath: "/img/property/"
             },
             island: false,
-            amenities: []
+            amenities: [],
+            loading: false
         };
     },
     created() {
@@ -551,6 +557,7 @@ export default {
             return "/img/thumbnail/" + this.similar_property[index].images.split(',', 1);
         },
         createEnquiry() {
+            this.loading = true;
             this.form.owner_id = this.property.owner_id;
             this.form.property_id = this.property.property_id;
             this.form.post('/api/enquiry')
@@ -560,9 +567,11 @@ export default {
                         icon: "success",
                         title: "Enquiry has been sent !!!",
                     });
+                    this.loading = false;
                 })
 
                 .catch(() => {
+                    this.loading = false;
                     console.log('error');
                 });
         },
